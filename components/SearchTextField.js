@@ -1,4 +1,4 @@
-import { SearchIcon } from "@heroicons/react/solid"
+import { SearchIcon, XIcon } from "@heroicons/react/solid"
 import { useSelector, useDispatch } from "react-redux"
 import { setWords } from "@store/search"
 
@@ -7,6 +7,9 @@ export const SearchTextField = ({ className = "" }) => {
   const dispatch = useDispatch()
   const changeWords = e => {
     dispatch(setWords(e.target.value))
+  }
+  const resetWords = () => {
+    dispatch(setWords(""))
   }
 
   return (
@@ -20,6 +23,11 @@ export const SearchTextField = ({ className = "" }) => {
         value={words}
         onChange={changeWords}
       />
+      {words.length > 0 && (
+        <button onClick={() => resetWords()}>
+          <XIcon className="h-5 w-5 text-gray-400 hover:text-gray-900" />
+        </button>
+      )}
     </div>
   )
 }
