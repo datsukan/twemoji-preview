@@ -1,6 +1,6 @@
 import { SearchIcon } from "@heroicons/react/solid"
 import { useSelector, useDispatch } from "react-redux"
-import { set as setWords } from "@store/search"
+import { setWords } from "@store/search"
 
 export const SearchTextField = ({ className = "" }) => {
   const words = useSelector(state => state.words)

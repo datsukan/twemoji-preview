@@ -9,7 +9,7 @@ export const Header = () => {
   }, [])
 
   const watchCurrentPosition = () => {
-    setVisible(scrollTop() > 160)
+    setVisible(scrollTop() > 100)
   }
 
   const scrollTop = () => {

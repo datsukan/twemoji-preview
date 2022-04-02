@@ -1,17 +1,19 @@
 import { useEffect, useState, useMemo } from "react"
 import emojis from "@data/twemoji.json"
 import { useSelector, useDispatch } from "react-redux"
-import { set as setWords } from "@store/search"
+import { setWords, setCategory, setSubCategory } from "@store/search"
 
 import { DefaultLayout } from "@layouts/Default"
 import { EmojiCardList } from "@components/EmojiCardList"
 import { AddShowItemButton } from "@components/AddShowItemButton"
-import { WordTags } from "@components/WordTags"
+import { ConditionTags } from "@components/ConditionTags"
 
 export default function Home() {
   const defaultLimit = 100
   const [limit, setLimit] = useState(defaultLimit)
   const wordsStr = useSelector(state => state.words)
+  const category = useSelector(state => state.category)
+  const subCategory = useSelector(state => state.subCategory)
   const words = useMemo(
     () =>
       typeof wordsStr === "string" && wordsStr.length > 0
@@ -25,7 +27,15 @@ export default function Home() {
 
   const matchEmojis = () => {
     return emojis.filter(emoji => {
-      if (words.length === 0) return true
+      if (words.length === 0 && !category && !subCategory) return true
+
+      if (category) {
+        if (emoji.group !== category) return false
+      }
+
+      if (subCategory) {
+        if (emoji.subgroup !== subCategory) return false
+      }
 
       const results = []
       words.map((word, i) => {
@@ -54,18 +64,26 @@ export default function Home() {
   }
 
   const dispatch = useDispatch()
-  const resetWords = () => {
+  const reset = () => {
     dispatch(setWords(""))
+    dispatch(setCategory(null))
+    dispatch(setSubCategory(null))
   }
 
   useEffect(() => {
     setLimit(defaultLimit)
-  }, [words])
+  }, [words, category, subCategory])
 
   return (
     <DefaultLayout>
       <div className="pb-4 flex items-center justify-between">
-        <WordTags words={words} resetWords={resetWords} className="w-4/5" />
+        <ConditionTags
+          words={words}
+          category={category}
+          subCategory={subCategory}
+          reset={reset}
+          className="w-4/5"
+        />
         <p>{`${matchEmojis().length} hits`}</p>
       </div>
       <div className="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-8">

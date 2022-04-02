@@ -8,7 +8,7 @@ export const AddShowItemButton = ({ onClick }) => {
     >
       <ChevronDoubleDownIcon className="w-4 h-4 text-gray-500 group-hover:text-black" />
       <span className="text-gray-500 group-hover:text-black text-sm font-bold">
-        さらに表示する
+        See More
       </span>
     </button>
   )
