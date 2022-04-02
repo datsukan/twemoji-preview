@@ -11,7 +11,7 @@ export default function Home() {
   const [limit, setLimit] = useState(defaultLimit)
   const words = useSelector(state => state.words)
   const matchEmojis = () => {
-    const allItems = emojis.filter(emoji => {
+    return emojis.filter(emoji => {
       if (emoji.char.includes(words)) {
         return true
       }
@@ -27,8 +27,6 @@ export default function Home() {
 
       return false
     })
-
-    return allItems.slice(0, limit)
   }
 
   useEffect(() => {
@@ -38,11 +36,13 @@ export default function Home() {
   return (
     <DefaultLayout>
       <div className="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-8">
-        <EmojiCardList emojis={matchEmojis} />
+        <EmojiCardList emojis={matchEmojis().slice(0, limit)} />
       </div>
-      <div className="h-20 flex items-end justify-center">
-        <AddShowItemButton onClick={() => setLimit(limit + defaultLimit)} />
-      </div>
+      {matchEmojis().length > limit && (
+        <div className="h-20 flex items-end justify-center">
+          <AddShowItemButton onClick={() => setLimit(limit + defaultLimit)} />
+        </div>
+      )}
     </DefaultLayout>
   )
 }
