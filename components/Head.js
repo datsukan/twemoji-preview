@@ -3,7 +3,7 @@ import NextHead from "next/head"
 export const Head = () => {
   const title = "Twemoji Preview"
   const description = "Twemoji search and preview site."
-  const image = "/link-card.png"
+  const image = "https://twemoji.datsukan.me/link-card.png"
   const type = "website"
 
   return (
