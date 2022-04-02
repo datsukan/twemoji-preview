@@ -1,24 +1,14 @@
 import { SiteLogo } from "@components/SiteLogo"
 import { SearchTextField } from "@components/SearchTextField"
-import { useEffect, useState } from "react"
+import { useState } from "react"
+import { useScrollPosition } from "@hooks/useScrollPosition"
 
 export const Header = () => {
   const [visible, setVisible] = useState(false)
-  useEffect(() => {
-    window.addEventListener("scroll", _ => watchCurrentPosition(), true)
-  }, [])
-
-  const watchCurrentPosition = () => {
-    setVisible(scrollTop() > 100)
+  const changeVisible = scrollTop => {
+    setVisible(scrollTop > 100)
   }
-
-  const scrollTop = () => {
-    return Math.max(
-      window.pageYOffset,
-      document.documentElement.scrollTop,
-      document.body.scrollTop
-    )
-  }
+  useScrollPosition(changeVisible)
 
   return (
     <>

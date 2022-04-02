@@ -1,8 +1,17 @@
 import { Header } from "@components/layout/Header"
 import { Sidebar } from "@components/layout/Sidebar"
 import { Footer } from "@components/layout/Footer"
+import { MoveTopButton } from "@components/MoveTopButton"
+import { useState } from "react"
+import { useScrollPosition } from "@hooks/useScrollPosition"
 
 export const DefaultLayout = ({ children, className }) => {
+  const [visible, setVisible] = useState(false)
+  const changeVisible = scrollTop => {
+    setVisible(scrollTop > 100)
+  }
+  useScrollPosition(changeVisible)
+
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
@@ -15,6 +24,8 @@ export const DefaultLayout = ({ children, className }) => {
       </div>
 
       <Footer />
+
+      {visible && <MoveTopButton />}
     </div>
   )
 }
