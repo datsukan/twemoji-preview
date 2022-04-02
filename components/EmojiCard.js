@@ -15,7 +15,7 @@ export const EmojiCard = ({ emoji }) => {
     >
       <Image src={emoji.url} width={40} height={40} alt="emoji" />
       <span className="text-gray-500 text-sm max-w-full line-clamp-1">
-        {emoji.key ?? emoji.name ?? "No key"}
+        {emoji.key ?? emoji.name ?? "-"}
       </span>
     </div>
   )
