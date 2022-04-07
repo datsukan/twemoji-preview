@@ -43,6 +43,10 @@ export default function Home() {
           results[i] = true
           return
         }
+        if ("codes" in emoji && emoji.codes.includes(word)) {
+          results[i] = true
+          return
+        }
         if ("key" in emoji && emoji.key.includes(word)) {
           results[i] = true
           return
