@@ -13,7 +13,7 @@ export const EmojiCard = ({ emoji }) => {
       >
         <Image src={emoji.url} width={40} height={40} alt="emoji" />
         <span className="text-gray-500 text-xs max-w-full line-clamp-1">
-          {emoji.codes ?? emoji.key ?? emoji.name ?? "-"}
+          {emoji.name ?? emoji.key ?? emoji.codes ?? "-"}
         </span>
       </div>
       <EmojiModal isOpen={isOpen} setIsOpen={setIsOpen} emoji={emoji} />
