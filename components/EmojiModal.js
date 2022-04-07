@@ -87,7 +87,7 @@ function generateInfoItems(emoji) {
   }
   if (emoji.subgroup) {
     items.push({
-      label: "SubGroup",
+      label: "SubCategory",
       text: emoji.subgroup ?? "",
     })
   }
