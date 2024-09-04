@@ -75,13 +75,13 @@ export const EmojiModal = ({ isOpen, setIsOpen, emoji }) => {
                 className="px-2 py-0.5 rounded-md bg-blue-50 hover:bg-blue-100 active:bg-blue-200"
                 onClick={() => copySvgToClipboard()}
               >
-                <span className="text-xs text-blue-700">画像をSVGでコピー</span>
+                <span className="text-xs text-blue-700">Copy as SVG</span>
               </button>
               <button
                 className="px-2 py-0.5 rounded-md bg-blue-50 hover:bg-blue-100 active:bg-blue-200"
                 onClick={() => copyPngToClipboard()}
               >
-                <span className="text-xs text-blue-700">画像をPNGでコピー</span>
+                <span className="text-xs text-blue-700">Copy as PNG</span>
               </button>
             </div>
           </div>
