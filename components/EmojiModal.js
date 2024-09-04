@@ -11,8 +11,8 @@ const InfoItem = ({ label, text }) => {
     const notifyText = omit(copyText)(30)("...")
     toast.success(`copied : ${notifyText}`)
   }
-  const copyToClipboard = copyText => {
-    navigator.clipboard.writeText(copyText)
+  const copyToClipboard = async copyText => {
+    await navigator.clipboard.writeText(copyText)
     notify(copyText)
   }
 
@@ -32,16 +32,58 @@ const InfoItem = ({ label, text }) => {
 export const EmojiModal = ({ isOpen, setIsOpen, emoji }) => {
   const infoItems = generateInfoItems(emoji)
 
+  const copySvgToClipboard = async () => {
+    const response = await fetch(emoji.url)
+    const data = await response.text()
+    await navigator.clipboard.writeText(data)
+    toast.success("copied as svg")
+  }
+
+  const copyPngToClipboard = async () => {
+    const response = await fetch(emoji.url)
+    const blob = await response.blob()
+    const canvas = document.createElement("canvas")
+    const ctx = canvas.getContext("2d")
+    const img = new Image()
+    img.src = URL.createObjectURL(blob)
+    img.onload = () => {
+      canvas.width = img.width
+      canvas.height = img.height
+      ctx.drawImage(img, 0, 0)
+      canvas.toBlob(async blob => {
+        const date = [new ClipboardItem({ "image/png": blob })]
+        await navigator.clipboard.write(date)
+        toast.success("copied as png")
+      })
+    }
+  }
+
   return (
     <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
       <div className="rounded-xl bg-white p-4 shadow-md max-w-full max-h-full overflow-auto">
-        <div className="flex flex-col sm:flex-row items-center gap-6">
-          <div className="flex h-40 w-40 items-center justify-center rounded-xl border-2 border-gray-200 p-6 mx-4 max-w-full">
-            <img
-              src={emoji.url}
-              alt="Twemoji icon image"
-              className="aspect-square w-full"
-            />
+        <div className="flex flex-col sm:flex-row gap-6">
+          <div className="space-y-2 my-auto mx-auto">
+            <div className="flex h-40 w-40 items-center justify-center rounded-xl border-2 border-gray-200 p-6 max-w-full">
+              <img
+                src={emoji.url}
+                alt="Twemoji icon image"
+                className="aspect-square w-full"
+              />
+            </div>
+            <div className="flex flex-col gap-1">
+              <button
+                className="px-2 py-0.5 rounded-md bg-blue-50 hover:bg-blue-100 active:bg-blue-200"
+                onClick={() => copySvgToClipboard()}
+              >
+                <span className="text-xs text-blue-700">画像をSVGでコピー</span>
+              </button>
+              <button
+                className="px-2 py-0.5 rounded-md bg-blue-50 hover:bg-blue-100 active:bg-blue-200"
+                onClick={() => copyPngToClipboard()}
+              >
+                <span className="text-xs text-blue-700">画像をPNGでコピー</span>
+              </button>
+            </div>
           </div>
           <div className="flex w-[25rem] flex-col gap-2 max-w-full">
             {infoItems.map(infoItem => (
